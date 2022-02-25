@@ -4,12 +4,16 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <chrono>
 
 using namespace std;
 
- /*Сортировка вставками*/
+ /*Сортировка простыми вставками*/
 void floatsort(float a[], int n)
 {
+    clock_t start = clock();    
+    auto begin = std::chrono::steady_clock::now();
+
     int i, j;
     float x;
     for (i = 0; i < n; i++) { // цикл проходов,i- номер прохода
@@ -19,6 +23,11 @@ void floatsort(float a[], int n)
             // место найдено, вставить элемент
         a[j + 1] = x;
     }
+           
+    auto end = chrono::steady_clock::now();
+    auto elapsed_ms = chrono::duration_cast<chrono::nanoseconds>(end - begin);
+    cout << "Время работы функции сортировки простыми вставками: " << elapsed_ms.count() << " наносекунд\n";
+    
 }
 
 void Exchange(int i, int j, float a[])
@@ -30,6 +39,7 @@ void Exchange(int i, int j, float a[])
 }
 
 void Quick_Sort(int left, int right, float a[]) {
+    
     int i, j, h;
     float m;
     i = left;
@@ -46,16 +56,19 @@ void Quick_Sort(int left, int right, float a[]) {
         Quick_Sort(left, j, a); 
     if (i < right)
         Quick_Sort(i, right, a);
+  
 }
 
-void SearchRez(float a[], bool flag, int m) {
+void ShowRez(float a[], bool flag, int m) {
 
     if (flag) cout << "\nЭлемент массива " << a[m] << " расположен в ячейке под индексом " << m << "\n";
     else cout << "\nТакого элемента нет в массиве...\n";
 }
 
 void Bin_Search(int left, int right, float a[], float find) {
-
+    
+    clock_t start = clock();
+    auto begin = std::chrono::steady_clock::now();
     int i, j, m;
     
     bool flag = false;
@@ -69,8 +82,11 @@ void Bin_Search(int left, int right, float a[], float find) {
         if (a[m] < find) { j = m - 1; }
         else { i = m + 1; }
     }   
-    
-    SearchRez(a, flag, m);
+       
+    auto end = chrono::steady_clock::now();
+    auto elapsed_ms = chrono::duration_cast<chrono::nanoseconds>(end - begin);
+    cout << "Время работы функции бинарного поиска сортировки: " << elapsed_ms.count() << " наносекунд\n";
+    ShowRez(a, flag, m);
 
 }
 
@@ -92,10 +108,15 @@ int main()
         //mass[i] = (float(rand()) / float((RAND_MAX)) * x);
         //cout << mass[i] << "\n";
     }
-    /*std::
-    //floatsort(mass, size);*/
     
+    //floatsort(mass, size);
+    clock_t start = clock();
+    auto begin = std::chrono::steady_clock::now();
     Quick_Sort(0, size - 1, mass);
+    auto end = chrono::steady_clock::now();
+    auto elapsed_ms = chrono::duration_cast<chrono::nanoseconds>(end - begin);
+    cout << "Время работы функции бинарного поиска сортировки: " << elapsed_ms.count() << " наносекунд\n";
+
     cout << "\nРезультат сортировки по убыванию:\n";
     for (i = 0; i < size; i++)
         cout << mass[i] << " \n";
